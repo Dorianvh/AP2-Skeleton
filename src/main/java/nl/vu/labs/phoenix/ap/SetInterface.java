@@ -38,10 +38,12 @@ public interface SetInterface<T extends Comparable<T>> {
 		 */
 
 	boolean remove(T t);
-		/*  PRE  -
-  			POST - Returns true if element T is not in the set
-  				 - Returns false if element T could not be removed from set
-    	 */
+   /*  PRE  -
+         POST - Returns true if element T is removed from the set
+             - Returns false if element T is not in the set
+        */
+
+	
 
 	boolean isEmpty();
 		/* PRE  -

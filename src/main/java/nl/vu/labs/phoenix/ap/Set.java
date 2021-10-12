@@ -4,7 +4,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	private LinkedList list;
 
-	//@Override
+	@Override
 	public void init() {
 		list.init();
 	}
@@ -22,29 +22,34 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		if(list.find(t)){
 			return true;
 		} return false;
+
+		// is return list.find(t) niet zelfde?
 	}
 
 	@Override
 	public T get() {
-	//	list.
+		//return  list.retrieve();
 		return null;
+
 	}
 
 	@Override
 	public boolean remove(T t) {
-		// TODO Auto-generated method stub
+		if(list.find(t)){
+			list.remove();
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return false;
+		return list.isEmpty();
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return list.size();
 	}
 
 	@Override
