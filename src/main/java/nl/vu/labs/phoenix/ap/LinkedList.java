@@ -39,9 +39,23 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return nodeCount;
     } //dor
 
+    @Override
+   /* public ListInterface<E> insert(E d) {
+        if(isEmpty()){
+            current = new Node(d);
+            nodeCount++;
+            return this;
+        }
+
+        goToFirst();
+       // while (current.data < current.next.data && current.next.data != null){
+
+        return null;
+    }*/
+
 
     public ListInterface<E> insert(E d) {
-        if(isEmpty()){
+       if(isEmpty()){
             current = new Node(d);
             nodeCount++;
             return this;
@@ -65,6 +79,8 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return this;
     }
 
+
+
     @Override
     public E retrieve() {
         return current.data;
@@ -86,7 +102,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     } //thijs
 
     @Override
-    public boolean find(E d) {//check
+    /*public boolean find(E d) {//check
         if(isEmpty()){
             return false;
         }
@@ -100,6 +116,30 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
                 return false;
             }
         } while (goToNext());
+        return false;
+    }*/
+
+    public boolean find(E d) {//check
+        if(isEmpty()){
+            return false;
+        }
+
+        goToFirst();
+        do {
+            if (current.data == d){
+                return true;
+            }
+        } while (goToNext());
+        goToFirst();
+        if(current.data.compareTo(d) > 0){
+            return false;
+        }
+        do{
+            if(current.data.compareTo(d) > 0){
+                current = current.prior;
+                return false;
+            }
+        } while(goToNext());
         return false;
     }
 
