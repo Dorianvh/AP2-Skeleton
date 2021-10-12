@@ -17,7 +17,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		} return false;
 	}
 
-	//@Override
+	@Override
 	public boolean checkForPresence(T t) { //simplify
 		if(list.find(t)){
 			return true;
@@ -36,7 +36,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		return false;
 	}
 
-	//@Override
+	@Override
 	public boolean isEmpty() {
 		return false;
 	}
@@ -53,22 +53,22 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public SetInterface<T> intersection(SetInterface<T> set2) {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public SetInterface<T> union(SetInterface<T> set2) {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public SetInterface<T> difference(SetInterface<T> set2) {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public SetInterface<T> symmetricDifference(SetInterface<T> set2) {
 		return null;
 	}
