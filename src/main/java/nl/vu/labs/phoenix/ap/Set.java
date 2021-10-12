@@ -54,7 +54,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	@Override
 	public SetInterface<T> copy() {
-		// TODO Auto-generated method stub
+		list.copy();
 		return null;
 	}
 
