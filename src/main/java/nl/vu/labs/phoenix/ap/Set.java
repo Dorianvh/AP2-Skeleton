@@ -4,6 +4,11 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	private LinkedList list;
 
+	public Set(LinkedList list){
+		this.list = list;
+		init();
+	}
+
 	@Override
 	public void init() {
 		list.init();
@@ -53,8 +58,8 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 	}
 
 	@Override
-	public SetInterface<T> copy() {
-		list.copy();
+	public Set copy() {
+		//return list.copy();
 		return null;
 	}
 
