@@ -31,7 +31,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return this;
     }
 
-    public boolean isEmpty() { //dor
+    public boolean isEmpty() {
         return current == null;
     }
 
@@ -42,28 +42,20 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
             return this;
         }
         find(d);
-        if(current.prior == null) {//all cases where the current is the first node
-            if(current.data.compareTo(d) < 0 && current.next == null){
-                current = current.next = new Node(d, current, null);
-            }
-            else if(current.data.compareTo(d) < 0 && current.next != null){
-                    current = current.next = current.next.prior = new Node(d, current, current.next);
-            }
-            else {
-                current = current.prior = new Node(d, null, current);
-            }
+        if(current.data.compareTo(d) > 0) {
+            current = current.prior = new Node(d, null, current);
         }
-        else if(current.next != null){//the current node is somewhere in the middle
+        else if(current.next != null){
             current = current.next = current.next.prior = new Node(d, current, current.next);
         }
-        else {//the current node is the last element
+        else {
             current = current.next = new Node(d, current, null);
         }
         nodeCount++;
         return this;
     }
 
-    public boolean find(E d) {//check
+    public boolean find(E d) {
         if(isEmpty()){
             return false;
         }
@@ -92,7 +84,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return current.data;
     }
 
-    public ListInterface<E> remove() {//check
+    public ListInterface<E> remove() {
         if(current.next == null && current.prior == null){
             return init();
         }
@@ -143,14 +135,15 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public ListInterface<E> copy() {
-        Node replace = this.current;
-        goToFirst();
+        E e = this.retrieve();
+        if(!goToFirst()){
+            return new LinkedList();
+        }
         LinkedList result = new LinkedList();
         do{
-            result.insert(this.current.data);
-            result.goToNext();
+            result.insert(this.retrieve());
         } while(goToNext());
-        this.current = replace;
+        this.find(e);
         return result;
     }
 }
