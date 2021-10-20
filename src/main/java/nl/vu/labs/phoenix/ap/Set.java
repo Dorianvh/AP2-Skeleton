@@ -2,86 +2,101 @@ package nl.vu.labs.phoenix.ap;
 
 public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
-	private LinkedList<T> list;
+	private LinkedList<T> set;
 
 	public Set(){
-		list = new LinkedList();
+		set = new LinkedList();
 	}
 
-	@Override
+	 
 	public void init() {
-		this.list.init();
+		this.set.init();
 	}
 
-	@Override
+	 
 	public boolean add(T t) {
-		if(!list.find(t)){
-			list.insert(t);
+		if(!set.find(t)){
+			set.insert(t);
 			return true;
 		} return false;
 	}
 
 	public boolean checkForPresence(T t) {
-		return list.find(t);
+		return set.find(t);
 	}
 
-	@Override
+	 
 	public T get() {
-		return list.retrieve();
+		return set.retrieve();
 	}
 
-	@Override
-	public boolean remove(T t) {//check interface
-		if(list.find(t)){
-			list.remove();
+	 
+	public boolean remove(T t) {
+		if(set.find(t)){
+			set.remove();
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isEmpty() {
-		return list.isEmpty();
+		return set.isEmpty();
 	}
 
-	@Override
+	 
 	public int size() {
-		return list.size();
+		return set.size();
 	}
 
-	@Override
+	 
 	public Set<T> copy() {//check
-		return null;
+		Set<T> copy = new Set();
+		copy.set = this.set.copy();
+		return copy;
 	}
 
-	@Override
-	public SetInterface<T> intersection(SetInterface<T> set2) {
-
+	public Set<T> intersection(Set<T> set2) {
 		Set intersection = new Set();
-		this.list.goToFirst();
+		this.set.goToFirst();
 		do{
 			if(set2.checkForPresence(this.get())){
 				intersection.add(this.get());
 			}
 		}
-		while(this.list.goToNext());
+		while(this.set.goToNext());
 		return intersection;
 	}
 
-	@Override
-	public SetInterface<T> union(SetInterface<T> set2) {
-		//Set union = set2.copy();//casting
-		//if(union)
-		return null;
+	public Set<T> union(Set<T> set2) {
+		Set union = set2.copy();
+		this.set.goToFirst();
+		do{
+			union.add(this.get());
+		}
+		while(this.set.goToNext());
+		return union;
 	}
 
-	@Override
-	public SetInterface<T> difference(SetInterface<T> set2) {
-		return null;
+	public Set<T> difference(Set<T> set2) {
+		Set difference = this.union(set2);
+		set2.set.goToFirst();
+		do{
+			if(difference.checkForPresence(set2.get())){
+				difference.remove(set2.get());
+			}
+		} while(set2.set.goToNext());
+		return difference;
 	}
 
-	@Override
-	public SetInterface<T> symmetricDifference(SetInterface<T> set2) {
-		return null;
+	public Set<T> symmetricDifference(Set set2) {
+		Set symmetricDifference = this.union(set2);
+		Set intersection = this.intersection(set2);
+		intersection.set.goToFirst();
+		do{
+			if(symmetricDifference.checkForPresence(intersection.get())){
+				symmetricDifference.remove(intersection.get());
+			}
+		} while(intersection.set.goToNext());
+		return symmetricDifference;
 	}
-
 }

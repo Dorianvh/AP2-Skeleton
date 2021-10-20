@@ -134,7 +134,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return true;
     }
 
-    public ListInterface<E> copy() {
+    public LinkedList<E> copy() {
         E e = this.retrieve();
         if(!goToFirst()){
             return new LinkedList();

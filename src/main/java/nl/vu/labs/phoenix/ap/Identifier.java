@@ -2,24 +2,65 @@ package nl.vu.labs.phoenix.ap;
 
 public class Identifier implements IdentifierInterface {
 
-	public void init(char c) {
+	private final static int INITIAL_AMOUNT_OF_ELEMENTS = 1;
+	private char[] charArray;
+	private int amountOfElements;
 
+	public Identifier(){
+		charArray = new char[INITIAL_AMOUNT_OF_ELEMENTS];
+		amountOfElements = 0;
 	}
 
-	public void add(char c) {
+	private void copyElements (char[] dest, char[] src, int amount) {
+		for (int i = 0; i < amount; i++) {
+			dest[i] = src[i];
+		}
+	}
 
+	public Identifier(Identifier src) {
+		charArray = new char[src.charArray.length];
+		amountOfElements = src.amountOfElements;
+		copyElements(charArray, src.charArray, amountOfElements);
+	}
+
+	public void init(char c) {
+		amountOfElements = 0;
+		add(c);
+	}
+
+	private void increaseIdentifierSize () {
+		char[] result = new char[charArray.length + 1];
+		copyElements(result, charArray, amountOfElements);
+		charArray = result;
+	}
+
+	public void add(char character) {
+		if (amountOfElements == charArray.length) {
+			increaseIdentifierSize();
+		}
+
+		charArray[amountOfElements] = character;
+		amountOfElements += 1;
 	}
 
 	public int size() {
-		return 0;
+		return amountOfElements;
 	}
 
 	public char getElement(int position) {
-		return 0;
+		return charArray[position];
 	}
 
 	public boolean isIdentical(Identifier id2) {
-		return false;
+		if (amountOfElements != id2.amountOfElements) {
+			return false;
+		}
+		for (int i = 0; i < amountOfElements; i++) {
+			if (charArray[i] != id2.charArray[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override

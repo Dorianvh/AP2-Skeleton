@@ -61,23 +61,23 @@ public interface SetInterface<T extends Comparable<T>> {
 			   POST - A new Set-object has been made and contains a copy of the elements src.
 			 */
 
-	SetInterface<T> intersection(SetInterface<T> set2);
+	Set<T> intersection(Set<T> set2);
 		/*  PRE  -
 			POST - returns a new set with copies ofThe intersection of set and set2 is returned
 		 */
 
 
-	SetInterface<T> union(SetInterface<T> set2);
+	Set<T> union(Set<T> set2);
 		/*  PRE  -
 			POST - Returns a new set containing copies of all the elements in both sets
 		 */
 
-	SetInterface<T> difference(SetInterface<T> set2);
+	Set<T> difference(Set<T> set2);
 		/*  PRE  -
 			POST - Returns a new set containing copies of the elements in set that are not in set2
 		 */
 
-	SetInterface<T> symmetricDifference(SetInterface<T> set2);
+	Set<T> symmetricDifference(Set<T> set2);
 		/*  PRE  -
 			POST - Returns a new set containing copies of the elements in set1 and set2 that are not in their intersection
 		 */
