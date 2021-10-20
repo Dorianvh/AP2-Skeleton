@@ -50,7 +50,9 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	@Override
 	public Set<T> copy() {//check
-		return null;
+		Set<T> result = new Set<>();
+		//result.add(list.copy());
+		return result;
 	}
 
 	@Override

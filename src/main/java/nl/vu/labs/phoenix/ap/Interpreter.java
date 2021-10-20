@@ -26,8 +26,9 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		if (the next stament is print){
 			read the identifer
 			retrieve the set that belongs to the identifier
+			return the set
 					else
-						give clear error message
+						give clear error message & return null
 		}
 */
 		return null;
