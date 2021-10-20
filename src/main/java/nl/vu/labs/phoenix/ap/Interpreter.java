@@ -9,13 +9,27 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	@Override
 	public T getMemory(String v) {
-		// TODO Implement me
+
 		return null;
 	}
 
 	@Override
 	public T eval(String s) {
-		// TODO Implement me
+		/**
+		 * Evaluate a line of input
+		 * @param s 		an expression
+		 * @return
+		 * 	if the statement is a print return the corresponding set
+		 * 	otherwise return null. also return null when an exception occurs (after printing it out!)
+
+
+		if (the next stament is print){
+			read the identifer
+			retrieve the set that belongs to the identifier
+					else
+						give clear error message
+		}
+*/
 		return null;
 	}
 
