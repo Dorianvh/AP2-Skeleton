@@ -65,6 +65,4 @@ public interface IdentifierInterface {
 	PRE: Identifier is not empty
     POST:the value of the element is returned
 	 */
-
-
 }

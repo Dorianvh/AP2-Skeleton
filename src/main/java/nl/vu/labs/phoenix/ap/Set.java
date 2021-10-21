@@ -50,7 +50,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	 
 	public Set<T> copy() {//check
-		Set<T> copy = new Set();
+		Set copy = new Set();
 		copy.set = this.set.copy();
 		return copy;
 	}

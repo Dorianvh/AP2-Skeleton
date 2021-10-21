@@ -65,7 +65,6 @@ public class Identifier implements IdentifierInterface {
 
 	@Override
 	public String value() {
-		//
 		return String.valueOf(charArray);
 	}
 

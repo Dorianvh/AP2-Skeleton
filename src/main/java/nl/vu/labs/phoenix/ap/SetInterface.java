@@ -56,7 +56,7 @@ public interface SetInterface<T extends Comparable<T>> {
 		  POST - the amount of elements is returned
 		 */
 
-	SetInterface<T> copy();
+	Set<T> copy();
 			/* PRE  -
 			   POST - A new Set-object has been made and contains a copy of the elements src.
 			 */
