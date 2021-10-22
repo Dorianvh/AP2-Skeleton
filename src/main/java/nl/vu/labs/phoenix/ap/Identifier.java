@@ -10,7 +10,9 @@ public class Identifier implements IdentifierInterface {
 	}
 
 	public Identifier(Identifier src) {
-		this.sb = new StringBuffer(src.sb);
+		for (int i = 0; i < src.size(); i++){
+			sb.append(src.getElement(0));
+		}
 	}
 
 	public void init(char c) {
