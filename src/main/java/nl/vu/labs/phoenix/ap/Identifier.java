@@ -2,71 +2,39 @@ package nl.vu.labs.phoenix.ap;
 
 public class Identifier implements IdentifierInterface {
 
-	private final static int INITIAL_AMOUNT_OF_ELEMENTS = 1;
-	private char[] charArray;
-	private int amountOfElements;
+	private StringBuffer sb;
+	private static final char PLACEHOLDER = 'p';
 
 	public Identifier(){
-		charArray = new char[INITIAL_AMOUNT_OF_ELEMENTS];
-		amountOfElements = 0;
-	}
-
-	private void copyElements (char[] dest, char[] src, int amount) {
-		for (int i = 0; i < amount; i++) {
-			dest[i] = src[i];
-		}
+		sb = new StringBuffer(PLACEHOLDER);
 	}
 
 	public Identifier(Identifier src) {
-		charArray = new char[src.charArray.length];
-		amountOfElements = src.amountOfElements;
-		copyElements(charArray, src.charArray, amountOfElements);
+		this.sb = src.sb;
 	}
 
 	public void init(char c) {
-		amountOfElements = 0;
-		add(c);
+		sb = new StringBuffer(c);
 	}
 
-	private void increaseIdentifierSize () {
-		char[] result = new char[charArray.length + 1];
-		copyElements(result, charArray, amountOfElements);
-		charArray = result;
-	}
-
-	public void add(char character) {
-		if (amountOfElements == charArray.length) {
-			increaseIdentifierSize();
-		}
-
-		charArray[amountOfElements] = character;
-		amountOfElements += 1;
+	public void add(char c) {
+		sb.append(c);
 	}
 
 	public int size() {
-		return amountOfElements;
+		return sb.length();
 	}
 
 	public char getElement(int position) {
-		return charArray[position];
+		return sb.charAt(position);
 	}
 
 	public boolean isIdentical(Identifier id2) {
-		if (amountOfElements != id2.amountOfElements) {
-			return false;
-		}
-		for (int i = 0; i < amountOfElements; i++) {
-			if (charArray[i] != id2.charArray[i]) {
-				return false;
-			}
-		}
-		return true;
+		return sb.equals(id2.sb);
 	}
 
-	@Override
 	public String value() {
-		return String.valueOf(charArray);
+		return sb.toString();
 	}
-
 }
 
