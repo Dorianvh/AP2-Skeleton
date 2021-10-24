@@ -11,7 +11,7 @@ public class Identifier implements IdentifierInterface {
 
 	public Identifier(Identifier src) {
 		for (int i = 0; i < src.size(); i++){
-			sb.append(src.getElement(0));
+			add(src.getElement(i));
 		}
 	}
 
