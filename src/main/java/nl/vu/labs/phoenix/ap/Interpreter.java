@@ -54,20 +54,27 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	 */
 
 	private void program(Scanner in) throws APException{
-		while(in.hasNext()){
+		/*while(in.hasNext()){
 			Scanner lineScanner = new Scanner(in.nextLine());
 			statement(lineScanner);
-		}
+		}*/
+		statement(in);
 	}
 
 	private void statement(Scanner in) throws APException{
+		skipSpaces(in);
 		if(nextCharIsLetter(in)){
-				assignment(in);
+			nextChar(in);
+			skipSpaces(in);
+			assignment(in);
 			}
 		else if(nextCharIs(in, '?')){
+			nextChar(in);
+			skipSpaces(in);
 			print_statement(in);
 		}
 		else if(nextCharIs(in, '/')){
+			nextChar(in);
 			comment(in);
 		}
 		else{
@@ -78,17 +85,25 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void assignment(Scanner in) throws APException{
 		identifier(in);
+		skipSpaces(in);
 		if(nextCharIs(in, '=')){
 			nextChar(in);
+			skipSpaces(in);
 			expression(in);
+			skipSpaces(in);
+			if(!eoln(in)){
+				throw new APException("Assignment should end with an expression");
+			}
 		} else{
 			throw new APException("an assignment needs to consist of an identifier followed by = followed by an expression");
 		}
 	}
 
 	private void print_statement(Scanner in) throws APException{
-		nextChar(in);
 		expression(in);
+		if(!eoln(in)){
+			throw new APException("Assignment should end with an expression");
+		}
 	}
 
 	private void comment(Scanner in){
@@ -96,26 +111,29 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private void identifier(Scanner in) throws APException{
-		while(!nextCharIs(in, ' ')){
+		while(nextCharIsLetter(in) || nextCharIsDigit(in)){
 			if(nextCharIsLetter(in)){
 				letter(in);
 			}
-			else if(nextCharIsDigit(in)){
+			else {
 				number(in);
 			}
-			else{
-				throw new APException("Identifiers can only contain letters and numbers");
-			}
 			nextChar(in);
+		}
+		if(!nextCharIs(in,'*') && !nextCharIs(in, '=')){
+			throw new APException("Identifiers can only consist of letters and numbers");
 		}
 	}
 
 	private void expression(Scanner in) throws APException{
 		term(in);
+		skipSpaces(in);
 		while(in.hasNext()){
 			if(nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')){
 				additive_Operator(in);
+				skipSpaces(in);
 				term(in);
+				skipSpaces(in);
 			} else{
 				throw new APException("There needs to be an additive-operator between two terms");
 			}
@@ -124,10 +142,13 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void term(Scanner in) throws APException{
 		factor(in);
+		skipSpaces(in);
 		while(!nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')){
 			if(nextCharIs(in, '*')){
 				multiplicative_operator(in);
+				skipSpaces(in);
 				factor(in);
+				skipSpaces(in);
 			} else{
 				throw new APException("There needs to be an multiplicative-operator between two factors");
 			}
@@ -136,11 +157,12 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void factor(Scanner in) throws APException{
 		if(nextCharIsLetter(in)){
-			nextChar(in);
 			identifier(in);
+			skipSpaces(in);
 		}
 		else if(nextCharIs(in, '(')){
 			nextChar(in);
+			skipSpaces(in);
 			complex_factor(in);
 		}
 		else if(nextCharIs(in, '{')){
@@ -154,6 +176,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void complex_factor(Scanner in) throws APException{
 		expression(in);
+		skipSpaces(in);
 		if(!nextCharIs(in, ')')){
 			throw new APException("complex factors should end with ')'");
 		}
@@ -163,22 +186,28 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		row_natural_numbers(in);
 		if(nextCharIs(in, '}')){
 			nextChar(in);
+			skipSpaces(in);
 		} else{
 			throw new APException("A set should be closed with '}'");
 		}
 	}
 
 	private void row_natural_numbers(Scanner in) throws APException{
-		while(nextCharIs(in, '}')){
+		while(!nextCharIs(in, '}')){
+			skipSpaces(in);
 			if(nextCharIsDigit(in)){
 				natural_number(in);
+				skipSpaces(in);
 			}else{
 				throw new APException("sets should only contain natural numbers");
 			}
 			if(nextCharIs(in, ',')){
 				nextChar(in);
+				skipSpaces(in);
 			}else{
-				throw new APException("Natural numbers should be seperated by a space");
+				if(!nextCharIs(in, '}')){
+					throw new APException("Natural numbers should be seperated by a ','");
+				}
 			}
 		}
 	}
@@ -187,18 +216,22 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		if(nextCharIs(in, '+')){
 			//define
 			nextChar(in);
+			skipSpaces(in);
 		}else if(nextCharIs(in, '-')){
 			//define
 			nextChar(in);
+			skipSpaces(in);
 		}else{
 			//"|" define
 			nextChar(in);
+			skipSpaces(in);
 		}
 	}
 
 	private void multiplicative_operator(Scanner in){
 		//define
 		nextChar(in);
+		skipSpaces(in);
 	}
 
 	private void natural_number(Scanner in) throws APException{
@@ -237,12 +270,18 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private void letter(Scanner in){
-		//add all letters including headfiles
+		//add all letters including hoofdletters
 	}
 
 
 	private char nextChar(Scanner in) {
 		return in.next().charAt(0);
+	}
+
+	private void skipSpaces(Scanner in){
+		while(nextCharIs(in, ' ')){
+			nextChar(in);
+		}
 	}
 
 	private boolean nextCharIs(Scanner in,char c) {
@@ -257,4 +296,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return in.hasNext("[a-zA-Z]");
 	}
 
+	private boolean eoln(Scanner in){
+		return in.hasNext();
+	}
 }
