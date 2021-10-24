@@ -201,11 +201,12 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private T complex_factor(Scanner in) throws APException{
-		expression(in);
+		T cf = expression(in);
 		skipSpaces(in);
 		if(!nextCharIs(in, ')')){
 			throw new APException("complex factors should end with ')'");
 		}
+		return cf;
 	}
 
 	private T set(Scanner in) throws APException{
@@ -240,9 +241,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T additive_Operator(T factor1, T factor2, char operator){
 		if(operator == '+'){
-			//define
-			nextChar(in);
-			skipSpaces(in);
+			factor1.union(factor2);
 		} else if(operator == '-')){
 			//define
 			nextChar(in);
