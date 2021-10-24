@@ -239,25 +239,29 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		}
 	}
 
-	private T additive_Operator(T factor1, T factor2, char operator){
+	private T additive_Operator(T s1, T s2, char operator) throws APException {
 		if(operator == '+'){
-			factor1.union(factor2);
-		} else if(operator == '-')){
-			//define
-			nextChar(in);
-			skipSpaces(in);
-		} else {
-			//"|" define
-			nextChar(in);
-			skipSpaces(in);
+			Set set2 = (Set) s2;
+			return (T) s1.union(set2);
+		}
+		if(operator == '-'){
+			Set set2 = (Set) s2;
+			return (T) s1.difference(set2);
 		}
 
+		if (operator == '|'){
+			Set set2 = (Set) s2;
+			return (T) s1.symmetricDifference(set2);
+		}
+		throw new APException("Operator is not: +. - or |");
 	}
 
-	private T multiplicative_operator(Scanner in){
-		//define
-		nextChar(in);
-		skipSpaces(in);
+	private T multiplicative_operator(T s1, T s2, char operator) throws APException {
+		if (operator == '*'){
+			Set set2 = (Set) s2;
+			return (T) s1.intersection(set2);
+		}
+		throw new APException("Operator is not: *");
 	}
 
 	private void natural_number(Scanner in) throws APException{
