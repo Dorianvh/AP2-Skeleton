@@ -164,14 +164,14 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T term(Scanner in) throws APException{
 		char operator;
-		T f1 = term(in);
+		T f1 = factor(in);
 		T f2;
 		skipSpaces(in);
 		while (in.hasNext()) {
 			if (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
 				operator = nextChar(in);
 				skipSpaces(in);
-				f2 = term(in);
+				f2 = factor(in);
 				skipSpaces(in);
 			} else {
 				throw new APException("There needs to be an multiplicative-operator between two terms");
@@ -210,34 +210,36 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private T set(Scanner in) throws APException{
-		row_natural_numbers(in);
+		T set = (T) new Set<BigInteger>();
+		skipSpaces(in);
+		if(nextCharIsDigit(in)){
+			set.add(row_natural_numbers(in));
+			while(nextCharIs(in, ',')){
+				nextChar(in);
+				skipSpaces(in);
+				set.add(row_natural_numbers(in));
+			}
+		}
 		if(nextCharIs(in, '}')){
 			nextChar(in);
 			skipSpaces(in);
 		} else{
 			throw new APException("A set should be closed with '}'");
 		}
+		return set;
 	}
 
-	private T row_natural_numbers(Scanner in) throws APException{
-		while(!nextCharIs(in, '}')){
-			skipSpaces(in);
-			if(nextCharIsDigit(in)){
-				natural_number(in);
-				skipSpaces(in);
-			}else{
-				throw new APException("sets should only contain natural numbers");
-			}
-			if(nextCharIs(in, ',')){
-				nextChar(in);
-				skipSpaces(in);
-			}else{
-				if(!nextCharIs(in, '}')){
-					throw new APException("Natural numbers should be seperated by a ','");
-				}
-			}
+	private BigInteger row_natural_numbers(Scanner in) throws APException {
+		if (nextCharIs(in, '0')) {
+			nextChar(in);
+			return new BigInteger("0");
+		} else if(nextCharIsDigit(in)){
+			return natural_number(in);
+		} else{
+			throw new APException("Sets should only contain natural numbers");
 		}
 	}
+
 
 	private T additive_Operator(T s1, T s2, char operator) throws APException {
 		if(operator == '+'){
@@ -264,46 +266,45 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		throw new APException("Operator is not: *");
 	}
 
-	private void natural_number(Scanner in) throws APException{
+	private BigInteger natural_number(Scanner in) throws APException{
 		if(nextCharIs(in, '0')){
-			zero(in);
+			return new BigInteger("0");
 		} else{
-			positive_number(in);
+			return positive_number(in);
 		}
 	}
 
-	private void positive_number(Scanner in) throws APException{
+	private BigInteger positive_number(Scanner in) throws APException{
+		StringBuffer number = new StringBuffer();
 		while(!nextCharIs(in, ',')) {
 			if (nextCharIsDigit(in)) {
-				number(in);
+				number.append(number(in));
 				nextChar(in);
-			} else{
-				throw new APException("Sets should only contain numbers");
+			} else if(nextCharIs(in, ' ')){
+				skipSpaces(in);
+				if(!nextCharIs(in, ',')){
+					throw new APException("Sets should only contain numbers");
+				}
 			}
 		}
+		return new BigInteger(number.toString());
 	}
 
-	private void number(Scanner in){
+	private int number(Scanner in){
 		if(nextCharIs(in, '0')){
-			zero(in);
+			return zero(in);
 		} else{
-			not_zero(in);
+			return not_zero(in);
 		}
 	}
 
-	private void zero(Scanner in){
-		//add zero
+	private int zero(Scanner in){
+		return 0;
 	}
 
-	private void not_zero(Scanner in){
-		//add not zero
-
+	private int not_zero(Scanner in){
+		return nextChar(in);
 	}
-
-	private void letter(Scanner in){
-		//add all letters including hoofdletters
-	}
-
 
 	private char nextChar(Scanner in) {
 		return in.next().charAt(0);
