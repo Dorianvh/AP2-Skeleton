@@ -1,6 +1,7 @@
 package nl.vu.labs.phoenix.ap;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -9,10 +10,23 @@ import java.util.regex.Pattern;
  */
 public class Interpreter<T extends SetInterface<BigInteger>> implements InterpreterInterface<T> {
 
+	HashMap<Identifier, T> hashMap;
+
+	public Interpreter(){
+		hashMap = new HashMap<Identifier, T>();
+	}
+
 	@Override
 	public T getMemory(String v) {
-
-		return null;
+		Scanner in = new Scanner(v);
+		in.useDelimiter(" ");
+		Identifier identifier = new Identifier();
+		try{
+			identifier = identifier(in);
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		return hashMap.get(identifier);
 	}
 
 	@Override
@@ -64,8 +78,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	private void statement(Scanner in) throws APException{
 		skipSpaces(in);
 		if(nextCharIsLetter(in)){
-			nextChar(in);
-			skipSpaces(in);
 			assignment(in);
 			}
 		else if(nextCharIs(in, '?')){
@@ -84,12 +96,12 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 
 	private void assignment(Scanner in) throws APException{
-		identifier(in);
+		Identifier id = identifier(in);
 		skipSpaces(in);
 		if(nextCharIs(in, '=')){
 			nextChar(in);
 			skipSpaces(in);
-			expression(in);
+			T expr = expression(in);
 			skipSpaces(in);
 			if(!eoln(in)){
 				throw new APException("Assignment should end with an expression");
@@ -97,6 +109,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		} else{
 			throw new APException("an assignment needs to consist of an identifier followed by = followed by an expression");
 		}
+		hashMap.put(id, expr);
 	}
 
 	private void print_statement(Scanner in) throws APException{
@@ -110,19 +123,20 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		//goes back to program
 	}
 
-	private void identifier(Scanner in) throws APException{
-		while(nextCharIsLetter(in) || nextCharIsDigit(in)){
-			if(nextCharIsLetter(in)){
-				letter(in);
-			}
-			else {
-				number(in);
-			}
-			nextChar(in);
+	private Identifier identifier(Scanner in) throws APException{
+		if(!nextCharIsLetter(in)){
+			throw new APException("Identifiers need to start with a letter");
 		}
+		Identifier id = new Identifier();
+		id.init(nextChar(in));
+		while(nextCharIsLetter(in) || nextCharIsDigit(in)){
+			id.add(nextChar(in));
+		}
+		skipSpaces(in);
 		if(!nextCharIs(in,'*') && !nextCharIs(in, '=')){
 			throw new APException("Identifiers can only consist of letters and numbers");
 		}
+		return id;
 	}
 
 	private void expression(Scanner in) throws APException{
