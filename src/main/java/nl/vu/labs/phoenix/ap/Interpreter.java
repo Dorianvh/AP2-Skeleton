@@ -99,11 +99,12 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void assignment(Scanner in) throws APException{
 		Identifier id = identifier(in);
+		T expr;
 		skipSpaces(in);
 		if(nextCharIs(in, '=')){
 			nextChar(in);
 			skipSpaces(in);
-			T expr = expression(in);
+			expr = expression(in);
 			skipSpaces(in);
 			if(!eoln(in)){
 				throw new APException("Assignment should end with an expression");
@@ -142,36 +143,42 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return id;
 	}
 
-	private T expression(Scanner in) throws APException{
-		char operator; //TODO CVB
+	private T expression(Scanner in) throws APException {
+		char operator;
 		T t1 = term(in);
 		T t2;
 		skipSpaces(in);
-
-		while(nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')){
+		while (in.hasNext()) {
+			if (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
 				operator = nextChar(in);
 				skipSpaces(in);
 				t2 = term(in);
 				skipSpaces(in);
-		} else{
-			throw new APException("There needs to be an additive-operator between two terms");
+			} else {
+				throw new APException("There needs to be an additive-operator between two terms");
+			}
+			t1 = additive_Operator(t1, t2, operator);
 		}
-		return additive_Operator(term1, term2, operator);
+		return t1;
 	}
 
 	private T term(Scanner in) throws APException{
-		factor(in);
+		char operator;
+		T f1 = term(in);
+		T f2;
 		skipSpaces(in);
-		while(!nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')){
-			if(nextCharIs(in, '*')){
-				multiplicative_operator(in);
+		while (in.hasNext()) {
+			if (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
+				operator = nextChar(in);
 				skipSpaces(in);
-				factor(in);
+				f2 = term(in);
 				skipSpaces(in);
-			} else{
-				throw new APException("There needs to be an multiplicative-operator between two factors");
+			} else {
+				throw new APException("There needs to be an multiplicative-operator between two terms");
 			}
+			f1 = multiplicative_operator(f1, f2, operator);
 		}
+		return f1;
 	}
 
 	private T factor(Scanner in) throws APException{
