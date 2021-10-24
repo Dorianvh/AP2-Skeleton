@@ -297,6 +297,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void not_zero(Scanner in){
 		//add not zero
+
 	}
 
 	private void letter(Scanner in){
