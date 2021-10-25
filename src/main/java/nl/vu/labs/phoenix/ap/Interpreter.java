@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-/**
- * A set interpreter for sets of elements of type T
- */
+
 public class Interpreter<T extends SetInterface<BigInteger>> implements InterpreterInterface<T> {
 
 	HashMap<Identifier, T> hashMap;
@@ -28,7 +26,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		}
 		return hashMap.get(identifier);
 	}
-	
 
 	@Override
 	public T eval(String s) {
@@ -42,20 +39,8 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		}
 	}
 
-	/**
-	 *
-	 * //comment method in.nextLine en call naar statement?
-	 *
-	 * //Exceptions explicit descriptions? moeten de exceptions een soort hulp zijn voor de gebruiker
-	 */
-
 	private T program(Scanner in) throws APException{
-		/*while(in.hasNext()){
-			Scanner lineScanner = new Scanner(in.nextLine());
-			statement(lineScanner);
-		}*/
 		return statement(in);
-		//TODO endl
 	}
 
 	private T statement(Scanner in) throws APException{
@@ -261,6 +246,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private boolean eoln(Scanner in){
+		skipSpaces(in);
 		return in.hasNext();
 	}
 }
