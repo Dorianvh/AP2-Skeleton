@@ -121,7 +121,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		skipSpaces(in);
 		while (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
 			operator = nextChar(in);
-			t = additive_Operator(t, term(in), operator);
+			t = calculate(t, term(in), operator);
 			skipSpaces(in);
 		}
 		return t;
@@ -141,7 +141,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 			} else {
 				throw new APException("There needs to be an multiplicative-operator between two terms");
 			}
-			f1 = multiplicative_operator(f1, f2, operator);
+			f1 = calculate(f1, f2, operator);
 		}
 		return f1;
 	}
@@ -202,10 +202,15 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	}
 
-	//TODO boolean
+	private boolean additive_Operator(char c){
+		return (c == '+' || c == '-' || c == '|');
+	}
 
+	private boolean multiplicative_operator(char c) {
+		return (c == '*');
+	}
 
-	private boolean additive_Operator(T s1, T s2, char operator) throws APException { //TODO calculate maken
+	private T calculate(T s1, T s2, char operator) throws APException { //TODO calculate maken
 		if(operator == '+'){
 			Set set2 = (Set) s2;
 			return (T) s1.union(set2);
@@ -219,16 +224,14 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 			Set set2 = (Set) s2;
 			return (T) s1.symmetricDifference(set2);
 		}
-		throw new APException("Operator is not: +, - or |");
-	}
 
-	private T multiplicative_operator(T s1, T s2, char operator) throws APException {
 		if (operator == '*'){
 			Set set2 = (Set) s2;
 			return (T) s1.intersection(set2);
 		}
-		throw new APException("Operator is not: *");
+		throw new APException("Operator is not: +, -, * or |");
 	}
+
 
 	private BigInteger natural_number(Scanner in) throws APException{
 		if(nextCharIs(in, '0')){
