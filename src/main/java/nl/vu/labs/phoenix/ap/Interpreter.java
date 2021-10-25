@@ -171,28 +171,24 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		T set = (T) new Set<BigInteger>();
 		skipSpaces(in);
 		if(nextCharIsDigit(in)){
-			set.add(row_natural_numbers(in));
-
+			row_natural_numbers(in, set);
 		}
 		if(nextCharIs(in, '}')){
 			nextChar(in);
-			skipSpaces(in);
 		} else{
-			throw new APException("A set should be closed with '}'");
+			throw new APException("A can only contain a row of natural numbers and should be closed with '}'");
 		}
 		return set;
 	}
 
-	private T row_natural_numbers(Scanner in) throws APException {
-		T set = (T) new Set<BigInteger>();
-
+	private T row_natural_numbers(Scanner in, T set) {
+		set.add(natural_number(in));
 		while(nextCharIs(in, ',')){
 			nextChar(in);
 			skipSpaces(in);
 			set.add(natural_number(in));
 		}
 		return set;
-
 	}
 
 	private boolean additive_Operator(char c){
@@ -226,18 +222,16 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 
-	private BigInteger natural_number(Scanner in) throws APException{
+	private BigInteger natural_number(Scanner in){
 		if(nextCharIs(in, '0')){
 			nextChar(in);
 			return new BigInteger("0");
 		}
-			return positive_number(in);
-
-
+		return positive_number(in);
 	}
 
-	private BigInteger positive_number(Scanner in) throws APException{
-		StringBuffer number = new StringBuffer(); //
+	private BigInteger positive_number(Scanner in){
+		StringBuffer number = new StringBuffer();
 		while(nextCharIsDigit(in)) {
 			number.append(nextChar(in));
 		}

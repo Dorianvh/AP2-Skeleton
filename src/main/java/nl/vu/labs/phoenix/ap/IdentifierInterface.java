@@ -53,10 +53,11 @@ public interface IdentifierInterface {
     POST: element at position is returned
      */
 
-	boolean isIdentical(Identifier id2);
+	boolean equals(Identifier id2);
     /*
      PRE:
-     POST: return if identifier is equel to id2.
+     POST: returns true: if identifier is equal to id2.
+     	   returns false: if identifier is not equal to id2.
       */
 
 	public String value();

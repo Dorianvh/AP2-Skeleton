@@ -33,7 +33,7 @@ public class Identifier implements IdentifierInterface {
 		return sb.charAt(position);
 	}
 
-	public boolean isIdentical(Identifier id2) { //TODO rename equel also in interface
+	public boolean equals(Identifier id2) { //TODO rename equel also in interface
 		return sb.toString().equals(id2.sb.toString());
 	}
 	//TODO hashcode en equels in interface
