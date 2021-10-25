@@ -19,7 +19,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	@Override
 	public T getMemory(String v) {
 		Scanner in = new Scanner(v);
-		in.useDelimiter(" ");
+		in.useDelimiter("");
 		Identifier identifier = new Identifier();
 		try{
 			identifier = identifier(in);
@@ -32,24 +32,8 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	@Override
 	public T eval(String s) {
-		/**
-		 * Evaluate a line of input
-		 * @param s 		an expression
-		 * @return
-		 * 	if the statement is a print return the corresponding set
-		 * 	otherwise return null. also return null when an exception occurs (after printing it out!)
-
-
-		if (the next stament is print){
-			read the identifer
-			retrieve the set that belongs to the identifier
-			return the set
-					else
-						give clear error message & return null
-		}
-*/
 		Scanner in = new Scanner(s);
-		in.useDelimiter(" ");
+		in.useDelimiter("");
 		try{
 			 return program(in);
 		} catch(APException e){
@@ -71,16 +55,17 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 			statement(lineScanner);
 		}*/
 		return statement(in);
+		//TODO endl
 	}
 
 	private T statement(Scanner in) throws APException{
 		skipSpaces(in);
 		if(nextCharIsLetter(in)){
 			assignment(in);
-			}
+		}
 		else if(nextCharIs(in, '?')){
 			nextChar(in);
-			skipSpaces(in);
+
 			return print_statement(in);
 		}
 		else if(nextCharIs(in, '/')){
@@ -96,67 +81,53 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private void assignment(Scanner in) throws APException{
 		Identifier id = identifier(in);
-		T expr;
+
 		skipSpaces(in);
-		if(nextCharIs(in, '=')){
-			nextChar(in);
-			skipSpaces(in);
-			expr = expression(in);
-			skipSpaces(in);
-			if(!eoln(in)){
-				throw new APException("Assignment should end with an expression");
-			}
-		} else{
+		if(!(nextCharIs(in, '='))){
 			throw new APException("an assignment needs to consist of an identifier followed by = followed by an expression");
+		}
+		nextChar(in);
+
+		T expr = expression(in);
+		//TODO endf skipspaces
+
+		if(!eoln(in)){
+			throw new APException("Assignment should end with an expression");
 		}
 		hashMap.put(id, expr);
 	}
 
-	private T print_statement(Scanner in) throws APException{
-		return expression(in);
-		//if(!eoln(in)){
-		//	throw new APException("Assignment should end with an expression");
-		//}
-		//TODO check method
+	private T print_statement(Scanner in) throws APException {
+		T print = expression(in);
+		eoln(in);
+		return print;
 	}
-
 	private void comment(Scanner in){
 		//goes back to program
 	}
 
-	private Identifier identifier(Scanner in) throws APException{
+	private Identifier identifier(Scanner in) {
 		Identifier id = new Identifier();
 		id.init(nextChar(in));
 		while(nextCharIsLetter(in) || nextCharIsDigit(in)){
 			id.add(nextChar(in));
-		}
-		skipSpaces(in);
-		if(!nextCharIs(in,'*') && !nextCharIs(in, '=')){
-			throw new APException("Identifiers can only consist of letters and numbers");
 		}
 		return id;
 	}
 
 	private T expression(Scanner in) throws APException {
 		char operator;
-		T t1 = term(in);
-		T t2;
+		T t = term(in);
 		skipSpaces(in);
-		while (in.hasNext()) {
-			if (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
-				operator = nextChar(in);
-				skipSpaces(in);
-				t2 = term(in);
-				skipSpaces(in);
-			} else {
-				throw new APException("There needs to be an additive-operator between two terms");
-			}
-			t1 = additive_Operator(t1, t2, operator);
+		while (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
+			operator = nextChar(in);
+			t = additive_Operator(t, term(in), operator);
+			skipSpaces(in);
 		}
-		return t1;
+		return t;
 	}
 
-	private T term(Scanner in) throws APException{
+	private T term(Scanner in) throws APException{ //TODO same as expression
 		char operator;
 		T f1 = factor(in);
 		T f2;
@@ -176,7 +147,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private T factor(Scanner in) throws APException{
-		skipSpaces(in); //TODO overbodig?
+		skipSpaces(in);
 		if(nextCharIsLetter(in)){
 			if (hashMap.containsKey(identifier(in))) {
 				return hashMap.get(identifier(in));
@@ -203,16 +174,12 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return cf;
 	}
 
-	private T set(Scanner in) throws APException{
+	private T set(Scanner in) throws APException{//TODO opruimen
 		T set = (T) new Set<BigInteger>();
 		skipSpaces(in);
 		if(nextCharIsDigit(in)){
 			set.add(row_natural_numbers(in));
-			while(nextCharIs(in, ',')){
-				nextChar(in);
-				skipSpaces(in);
-				set.add(row_natural_numbers(in));
-			}
+
 		}
 		if(nextCharIs(in, '}')){
 			nextChar(in);
@@ -223,19 +190,22 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return set;
 	}
 
-	private BigInteger row_natural_numbers(Scanner in) throws APException {
-		if (nextCharIs(in, '0')) {
+	private T row_natural_numbers(Scanner in) throws APException {
+		T set = (T) new Set<BigInteger>();
+
+		while(nextCharIs(in, ',')){
 			nextChar(in);
-			return new BigInteger("0");
-		} else if(nextCharIsDigit(in)){
-			return natural_number(in);
-		} else{
-			throw new APException("Sets should only contain natural numbers");
+			skipSpaces(in);
+			set.add(natural_number(in));
 		}
+		return set;
+
 	}
 
+	//TODO boolean
 
-	private T additive_Operator(T s1, T s2, char operator) throws APException {
+
+	private boolean additive_Operator(T s1, T s2, char operator) throws APException { //TODO calculate maken
 		if(operator == '+'){
 			Set set2 = (Set) s2;
 			return (T) s1.union(set2);
@@ -249,7 +219,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 			Set set2 = (Set) s2;
 			return (T) s1.symmetricDifference(set2);
 		}
-		throw new APException("Operator is not: +. - or |");
+		throw new APException("Operator is not: +, - or |");
 	}
 
 	private T multiplicative_operator(T s1, T s2, char operator) throws APException {
@@ -262,42 +232,20 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private BigInteger natural_number(Scanner in) throws APException{
 		if(nextCharIs(in, '0')){
+			nextChar(in);
 			return new BigInteger("0");
-		} else{
-			return positive_number(in);
 		}
+			return positive_number(in);
+
+
 	}
 
 	private BigInteger positive_number(Scanner in) throws APException{
-		StringBuffer number = new StringBuffer();
-		while(!nextCharIs(in, ',')) {
-			if (nextCharIsDigit(in)) {
-				number.append(number(in));
-				nextChar(in);
-			} else if(nextCharIs(in, ' ')){
-				skipSpaces(in);
-				if(!nextCharIs(in, ',')){
-					throw new APException("Sets should only contain numbers");
-				}
-			}
+		StringBuffer number = new StringBuffer(); //
+		while(nextCharIsDigit(in)) {
+			number.append(nextChar(in));
 		}
 		return new BigInteger(number.toString());
-	}
-
-	private int number(Scanner in){
-		if(nextCharIs(in, '0')){
-			return zero(in);
-		} else{
-			return not_zero(in);
-		}
-	}
-
-	private int zero(Scanner in){
-		return 0;
-	}
-
-	private int not_zero(Scanner in){
-		return nextChar(in);
 	}
 
 	private char nextChar(Scanner in) {

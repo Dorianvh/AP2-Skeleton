@@ -6,17 +6,18 @@ public class Identifier implements IdentifierInterface {
 	private static final char PLACEHOLDER = 'p';
 
 	public Identifier(){
-		sb = new StringBuffer(PLACEHOLDER);
+		init(PLACEHOLDER);
 	}
 
 	public Identifier(Identifier src) {
+		sb = new StringBuffer();
 		for (int i = 0; i < src.size(); i++){
 			add(src.getElement(i));
 		}
 	}
 
 	public void init(char c) {
-		sb.delete(0, sb.length());
+		sb = new StringBuffer();
 		sb.append(c);
 	}
 
@@ -32,9 +33,10 @@ public class Identifier implements IdentifierInterface {
 		return sb.charAt(position);
 	}
 
-	public boolean isIdentical(Identifier id2) {
-		return sb.equals(id2.sb);
+	public boolean isIdentical(Identifier id2) { //TODO rename equel also in interface
+		return sb.toString().equals(id2.sb.toString());
 	}
+	//TODO hashcode en equels in interface
 
 	public String value() {
 		return sb.toString();

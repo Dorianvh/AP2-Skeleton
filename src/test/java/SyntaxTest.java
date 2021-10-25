@@ -58,7 +58,7 @@ public class SyntaxTest {
 		InterpreterInterface<Set<BigInteger>> interpreter = new Interpreter<Set<BigInteger>>();
 		
 		// ignore prefix spacing tests
-		SetInterface<BigInteger> actual = interpreter.eval("         ? {1,2}");
+		SetInterface<BigInteger> actual = interpreter.eval("        ? {1,2}");
 		assertNotNull("spacing in front of the command symbols should be ignored", actual);
 		
 		interpreter.eval("        Aap = {1,2}");
