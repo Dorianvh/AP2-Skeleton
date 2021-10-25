@@ -129,21 +129,14 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T term(Scanner in) throws APException{ //TODO same as expression
 		char operator;
-		T f1 = factor(in);
-		T f2;
+		T f = factor(in);
 		skipSpaces(in);
-		while (in.hasNext()) {
-			if (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
-				operator = nextChar(in);
-				skipSpaces(in);
-				f2 = factor(in);
-				skipSpaces(in);
-			} else {
-				throw new APException("There needs to be an multiplicative-operator between two terms");
-			}
-			f1 = calculate(f1, f2, operator);
+		while (nextCharIs(in, '*')) {
+			operator = nextChar(in);
+			f = calculate(f, factor(in), operator);
+			skipSpaces(in);
 		}
-		return f1;
+		return f;
 	}
 
 	private T factor(Scanner in) throws APException{
