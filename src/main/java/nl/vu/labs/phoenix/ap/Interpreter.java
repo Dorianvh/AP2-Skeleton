@@ -51,29 +51,26 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		Scanner in = new Scanner(s);
 		in.useDelimiter(" ");
 		try{
-			program(in);
+			 return program(in);
 		} catch(APException e){
 			System.out.println(e.getMessage());
 			return null;
 		}
-		return null;
 	}
 
 	/**
-	 * //Moet na de return null statement in eval alle input gelezen zijn?
-	 * Zo ja doe je dit door na elke "dead end" een call naar statement te maken en daar een check te hebben zoals hasNextLine
 	 *
 	 * //comment method in.nextLine en call naar statement?
 	 *
 	 * //Exceptions explicit descriptions? moeten de exceptions een soort hulp zijn voor de gebruiker
 	 */
 
-	private void program(Scanner in) throws APException{
+	private T program(Scanner in) throws APException{
 		/*while(in.hasNext()){
 			Scanner lineScanner = new Scanner(in.nextLine());
 			statement(lineScanner);
 		}*/
-		statement(in);
+		return statement(in);
 	}
 
 	private T statement(Scanner in) throws APException{
@@ -128,9 +125,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private Identifier identifier(Scanner in) throws APException{
-		if(!nextCharIsLetter(in)){
-			throw new APException("Identifiers need to start with a letter");
-		}
 		Identifier id = new Identifier();
 		id.init(nextChar(in));
 		while(nextCharIsLetter(in) || nextCharIsDigit(in)){

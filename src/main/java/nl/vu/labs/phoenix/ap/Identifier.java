@@ -16,7 +16,8 @@ public class Identifier implements IdentifierInterface {
 	}
 
 	public void init(char c) {
-		sb = new StringBuffer(c);
+		sb.delete(0, sb.length());
+		sb.append(c);
 	}
 
 	public void add(char c) {
