@@ -50,7 +50,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		}
 		else if(nextCharIs(in, '?')){
 			nextChar(in);
-
 			return print_statement(in);
 		}
 		else if(nextCharIs(in, '/')){
@@ -74,7 +73,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		nextChar(in);
 
 		T expr = expression(in);
-		//TODO endf skipspaces
 
 		if(!eoln(in)){
 			throw new APException("Assignment should end with an expression");
@@ -93,7 +91,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private Identifier identifier(Scanner in) {
 		Identifier id = new Identifier();
-		id.init(nextChar(in));
+		id.add(nextChar(in));
 		while(nextCharIsLetter(in) || nextCharIsDigit(in)){
 			id.add(nextChar(in));
 		}

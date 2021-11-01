@@ -5,7 +5,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 	private LinkedList<T> list;
 
 	public Set(){
-		list = new LinkedList();
+		list = new LinkedList<T>();
 	}
 
 	 
