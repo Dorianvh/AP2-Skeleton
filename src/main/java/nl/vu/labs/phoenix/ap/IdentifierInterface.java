@@ -53,7 +53,7 @@ public interface IdentifierInterface {
     POST: element at position is returned
      */
 
-	boolean equals(Identifier id2);
+	boolean equals(Identifier id);
     /*
      PRE:
      POST: returns true: if identifier is equal to id2.

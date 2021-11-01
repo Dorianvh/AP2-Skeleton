@@ -34,16 +34,13 @@ public class Identifier implements IdentifierInterface {
 		return sb.charAt(position);
 	}
 
-	@Override
-	public boolean equals(Identifier id2) {
-		return sb.toString().equals(id2.sb.toString());
-	}
-
-	public int hashCode() {
+	public int hashCode(){
 		return sb.toString().hashCode();
 	}
 
-	//TODO hashcode en equels in interface
+	public boolean equals(Identifier id) {
+		return this.sb.toString().equals(id.sb.toString());
+	}
 
 	public String value() {
 		return sb.toString();
