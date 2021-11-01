@@ -154,6 +154,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T set(Scanner in) throws APException{//TODO opruimen
 		T set = (T) new Set<BigInteger>();
+
 		skipSpaces(in);
 		if(nextCharIsDigit(in)){
 			row_natural_numbers(in, set);

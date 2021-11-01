@@ -2,101 +2,101 @@ package nl.vu.labs.phoenix.ap;
 
 public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
-	private LinkedList<T> set;
+	private LinkedList<T> list;
 
 	public Set(){
-		set = new LinkedList();
+		list = new LinkedList();
 	}
 
 	 
 	public void init() {
-		this.set.init();
+		this.list.init();
 	}
 
 	 
 	public boolean add(T t) {
-		if(!set.find(t)){
-			set.insert(t);
+		if(!list.find(t)){
+			list.insert(t);
 			return true;
 		} return false;
 	}
 
 	public boolean checkForPresence(T t) {
-		return set.find(t);
+		return list.find(t);
 	}
 
 	 
 	public T get() {
-		return set.retrieve();
+		return list.retrieve();
 	}
 
 	 
 	public boolean remove(T t) {
-		if(set.find(t)){
-			set.remove();
+		if(list.find(t)){
+			list.remove();
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isEmpty() {
-		return set.isEmpty();
+		return list.isEmpty();
 	}
 
 	 
 	public int size() {
-		return set.size();
+		return list.size();
 	}
 
 	 
 	public Set<T> copy() {//check
 		Set copy = new Set();
-		copy.set = this.set.copy();
+		copy.list = this.list.copy();
 		return copy;
 	}
 
 	public Set<T> intersection(Set<T> set2) {
 		Set intersection = new Set();
-		this.set.goToFirst();
+		this.list.goToFirst();
 		do{
 			if(set2.checkForPresence(this.get())){
 				intersection.add(this.get());
 			}
 		}
-		while(this.set.goToNext());
+		while(this.list.goToNext());
 		return intersection;
 	}
 
 	public Set<T> union(Set<T> set2) {
 		Set union = set2.copy();
-		this.set.goToFirst();
+		this.list.goToFirst();
 		do{
 			union.add(this.get());
 		}
-		while(this.set.goToNext());
+		while(this.list.goToNext());
 		return union;
 	}
 
 	public Set<T> difference(Set<T> set2) {
 		Set difference = this.union(set2);
-		set2.set.goToFirst();
+		set2.list.goToFirst();
 		do{
 			if(difference.checkForPresence(set2.get())){
 				difference.remove(set2.get());
 			}
-		} while(set2.set.goToNext());
+		} while(set2.list.goToNext());
 		return difference;
 	}
 
 	public Set<T> symmetricDifference(Set set2) {
 		Set symmetricDifference = this.union(set2);
 		Set intersection = this.intersection(set2);
-		intersection.set.goToFirst();
+		intersection.list.goToFirst();
 		do{
 			if(symmetricDifference.checkForPresence(intersection.get())){
 				symmetricDifference.remove(intersection.get());
 			}
-		} while(intersection.set.goToNext());
+		} while(intersection.list.goToNext());
 		return symmetricDifference;
 	}
 }

@@ -60,6 +60,8 @@ public interface IdentifierInterface {
      	   returns false: if identifier is not equal to id2.
       */
 
+	int hashCode();
+
 	public String value();
 
 	/*

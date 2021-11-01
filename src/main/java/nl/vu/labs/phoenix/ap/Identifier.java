@@ -33,9 +33,15 @@ public class Identifier implements IdentifierInterface {
 		return sb.charAt(position);
 	}
 
-	public boolean equals(Identifier id2) { //TODO rename equel also in interface
+	@Override
+	public boolean equals(Identifier id2) {
 		return sb.toString().equals(id2.sb.toString());
 	}
+
+	public int hashCode() {
+		return sb.toString().hashCode();
+	}
+
 	//TODO hashcode en equels in interface
 
 	public String value() {
