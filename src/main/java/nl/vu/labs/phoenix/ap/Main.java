@@ -3,7 +3,7 @@ package nl.vu.labs.phoenix.ap;
 import java.math.BigInteger;
 import java.util.Scanner;
 
-public class Main{
+public class Main<T extends Comparable>{
 
 	private void start() {
 		InterpreterInterface<Set<BigInteger>> interpreter = new Interpreter<Set<BigInteger>>();
@@ -24,10 +24,18 @@ public class Main{
 		new Main().start();
 	}
 
-	private void printSet(Set s){
-		T id = s.get();
+	private void printSet(Set<BigInteger> set) {
+		SetInterface<BigInteger> setCopy = set.copy();
+		if (setCopy.isEmpty()) {
+			System.out.println("");
+		}
 
-
+		while (setCopy.size() > 1) {
+			System.out.print(setCopy.get());
+			setCopy.remove(setCopy.get());
+		}
+		System.out.print(setCopy.get());
+		setCopy.remove(setCopy.get());
 	}
 
 }

@@ -74,9 +74,9 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 		T expr = expression(in);
 
-		if(!eoln(in)){
-			throw new APException("Assignment should end with an expression");
-		}
+		eoln(in);
+
+
 		hashMap.put(id, expr);
 	}
 
@@ -110,7 +110,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return t;
 	}
 
-	private T term(Scanner in) throws APException{ //TODO same as expression
+	private T term(Scanner in) throws APException{
 		char operator;
 		T f = factor(in);
 		skipSpaces(in);
@@ -150,7 +150,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return cf;
 	}
 
-	private T set(Scanner in) throws APException{//TODO opruimen
+	private T set(Scanner in) throws APException{
 		T set = (T) new Set<BigInteger>();
 
 		skipSpaces(in);
@@ -166,12 +166,19 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private T row_natural_numbers(Scanner in, T set) {
+
+
 		set.add(natural_number(in));
 		while(nextCharIs(in, ',')){
+
 			nextChar(in);
 			skipSpaces(in);
+			if (!(nextCharIsDigit(in))){
+				return set;
+			}
 			set.add(natural_number(in));
 		}
+
 		return set;
 	}
 
@@ -183,7 +190,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return (c == '*');
 	}
 
-	private T calculate(T s1, T s2, char operator) throws APException { //TODO calculate maken
+	private T calculate(T s1, T s2, char operator) throws APException {
 		if(operator == '+'){
 			Set set2 = (Set) s2;
 			return (T) s1.union(set2);
@@ -244,8 +251,10 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return in.hasNext("[a-zA-Z]");
 	}
 
-	private boolean eoln(Scanner in){
+	private void eoln(Scanner in) throws APException {
 		skipSpaces(in);
-		return in.hasNext();
+		if (in.hasNext()) {
+			throw new APException("Assignment should end with an expression");
+		}
 	}
 }

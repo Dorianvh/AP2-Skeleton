@@ -15,10 +15,11 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	 
 	public boolean add(T t) {
-		if(!list.find(t)){
-			list.insert(t);
-			return true;
-		} return false;
+		if(list.find(t)){
+			return false;
+		}
+		list.insert(t);
+		return true;
 	}
 
 	public boolean checkForPresence(T t) {
@@ -27,6 +28,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 
 	 
 	public T get() {
+
 		return list.retrieve();
 	}
 
