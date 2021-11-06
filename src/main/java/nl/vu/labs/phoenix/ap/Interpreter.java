@@ -153,6 +153,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		if(!nextCharIs(in, ')')){
 			throw new APException("complex factors should end with ')'");
 		}
+		nextChar(in);
 		return cf;
 	}
 
