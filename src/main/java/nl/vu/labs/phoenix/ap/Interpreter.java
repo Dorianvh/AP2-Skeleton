@@ -166,8 +166,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private T row_natural_numbers(Scanner in, T set) {
-
-
 		set.add(natural_number(in));
 		while(nextCharIs(in, ',')){
 
@@ -192,21 +190,21 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T calculate(T s1, T s2, char operator) throws APException {
 		if(operator == '+'){
-			Set set2 = (Set) s2;
+			T set2 = (T) new Set<BigInteger>();
 			return (T) s1.union(set2);
 		}
 		if(operator == '-'){
-			Set set2 = (Set) s2;
+			T set2 = (T) new Set<BigInteger>();
 			return (T) s1.difference(set2);
 		}
 
 		if (operator == '|'){
-			Set set2 = (Set) s2;
+			T set2 = (T) new Set<BigInteger>();
 			return (T) s1.symmetricDifference(set2);
 		}
 
 		if (operator == '*'){
-			Set set2 = (Set) s2;
+			T set2 = (T) new Set<BigInteger>();
 			return (T) s1.intersection(set2);
 		}
 		throw new APException("Operator is not: +, -, * or |");
