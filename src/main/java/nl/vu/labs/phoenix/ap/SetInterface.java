@@ -58,7 +58,7 @@ public interface SetInterface<T extends Comparable<T>> {
 
 	SetInterface<T> copy();
 			/* PRE  -
-			   POST - A new Set-object has been made and contains a copy of the elements src.
+			   POST - A new Set-object has been made and contains a copy of the elements in src.
 			 */
 
 	SetInterface<T> intersection(SetInterface<T> set2);

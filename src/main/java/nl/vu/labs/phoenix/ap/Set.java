@@ -60,8 +60,10 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		Set<T> intersection = new Set<T>();
 		this.list.goToFirst();
 		do{
-			if(set2.checkForPresence(this.get())){
-				intersection.add(this.get());
+			if(!isEmpty()) {
+				if (set2.checkForPresence(this.get())) {
+					intersection.add(this.get());
+				}
 			}
 		}
 		while(this.list.goToNext());
@@ -72,7 +74,9 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		Set<T> union = (Set<T>) set2.copy();
 		this.list.goToFirst();
 		do{
-			union.add(this.get());
+			if(!this.isEmpty()){
+				union.add(this.get());
+			}
 		}
 		while(this.list.goToNext());
 		return union;
@@ -82,8 +86,10 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		Set<T> difference = new Set<T>();
 		list.goToFirst();
 		do{
-			if(!set2.checkForPresence(get())){
-				difference.add(get());
+			if(!isEmpty()) {
+				if (!set2.checkForPresence(get())) {
+					difference.add(get());
+				}
 			}
 		} while(list.goToNext());
 		return difference;
@@ -94,8 +100,10 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
 		Set<T> intersection = this.intersection(set2);
 		intersection.list.goToFirst();
 		do{
-			if(symmetricDifference.checkForPresence(intersection.get())){
-				symmetricDifference.remove(intersection.get());
+			if(!intersection.isEmpty()) {
+				if (symmetricDifference.checkForPresence(intersection.get())) {
+					symmetricDifference.remove(intersection.get());
+				}
 			}
 		} while(intersection.list.goToNext());
 		return symmetricDifference;

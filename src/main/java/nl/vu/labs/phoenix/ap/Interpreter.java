@@ -125,8 +125,9 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	private T factor(Scanner in) throws APException{
 		skipSpaces(in);
 		if(nextCharIsLetter(in)){
-			if (hashMap.containsKey(identifier(in))) {
-				return hashMap.get(identifier(in));
+			Identifier id = identifier(in);
+			if (hashMap.containsKey(id)) {
+				return hashMap.get(id);
 			}
 		}
 		else if(nextCharIs(in, '(')){

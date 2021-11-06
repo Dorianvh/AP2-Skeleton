@@ -59,21 +59,15 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         if (isEmpty()) {
             return false;
         }
-
         goToFirst();
-
-        boolean canGoNext = true;
-
-        while (canGoNext) {
+        do {
             if (current.data.compareTo(d) == 0) {
                 return true;
             } else if (current.data.compareTo(d) > 0) {
                 goToPrevious();
                 return false;
             }
-
-            canGoNext = goToNext();
-        }
+        } while(goToNext());
 
         return false;
     }
@@ -138,15 +132,16 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public LinkedList<E> copy() {
-        E e = this.retrieve();
-        if(!goToFirst()){
+        if(isEmpty()){
             return new LinkedList();
         }
+        Node placeholder = current;
+        goToFirst();
         LinkedList result = new LinkedList();
         do{
             result.insert(this.retrieve());
         } while(goToNext());
-        this.find(e);
+        current = placeholder;
         return result;
     }
 }
