@@ -25,17 +25,13 @@ public class Main<T extends Comparable>{
 	}
 
 	private void printSet(Set<BigInteger> set) {
-		SetInterface<BigInteger> setCopy = set.copy();
+		Set<BigInteger> setCopy = set.copy();
 		if (setCopy.isEmpty()) {
 			System.out.println("");
 		}
-
-		while (setCopy.size() > 1) {
+		while (setCopy.size() != 0) {
 			System.out.print(setCopy.get());
 			setCopy.remove(setCopy.get());
 		}
-		System.out.print(setCopy.get());
-		setCopy.remove(setCopy.get());
 	}
-
 }
