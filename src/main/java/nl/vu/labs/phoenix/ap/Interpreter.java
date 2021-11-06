@@ -100,10 +100,12 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T expression(Scanner in) throws APException {
 		char operator;
+		skipSpaces(in);
 		T t = term(in);
 		skipSpaces(in);
 		while (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
 			operator = nextChar(in);
+			skipSpaces(in);
 			t = calculate(t, term(in), operator);
 			skipSpaces(in);
 		}
@@ -118,6 +120,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		skipSpaces(in);
 		while (nextCharIs(in, '*')) {
 			operator = nextChar(in);
+			skipSpaces(in);
 			f = calculate(f, factor(in), operator);
 			skipSpaces(in);
 		}
@@ -163,23 +166,23 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		if(nextCharIs(in, '}')){
 			nextChar(in);
 		} else{
-			throw new APException("A can only contain a row of natural numbers and should be closed with '}'");
+			throw new APException("A set can only contain a row of natural numbers and should be closed with '}'");
 		}
 		return set;
 	}
 
 	private T row_natural_numbers(Scanner in, T set) {
 		set.add(natural_number(in));
+		skipSpaces(in);
 		while(nextCharIs(in, ',')){
-
 			nextChar(in);
 			skipSpaces(in);
-			if (!(nextCharIsDigit(in))){
+			if(!nextCharIsDigit(in)){
 				return set;
 			}
 			set.add(natural_number(in));
+			skipSpaces(in);
 		}
-
 		return set;
 	}
 
@@ -208,7 +211,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		}
 		throw new APException("Operator is not: +, -, * or |");
 	}
-
 
 	private BigInteger natural_number(Scanner in){
 		if(nextCharIs(in, '0')){
