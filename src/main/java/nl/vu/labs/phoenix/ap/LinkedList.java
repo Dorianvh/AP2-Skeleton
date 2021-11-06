@@ -32,7 +32,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public boolean isEmpty() {
-        return current == null;
+        return nodeCount == 0;
     }
 
     public ListInterface<E> insert(E d) {
@@ -56,25 +56,28 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public boolean find(E d) {
-        if(isEmpty()){
+        if (isEmpty()) {
             return false;
         }
+
         goToFirst();
-        if(current.data.compareTo(d) > 0 || current.next == null){
-            return false;
-        }
-        goToNext();
-        do {
-            if (current.data == d){
+
+        boolean canGoNext = true;
+
+        while (canGoNext) {
+            if (current.data.compareTo(d) == 0) {
                 return true;
-            }
-            if(current.data.compareTo(d) > 0){
-                current = current.prior;
+            } else if (current.data.compareTo(d) > 0) {
+                goToPrevious();
                 return false;
             }
-        } while (goToNext());
+
+            canGoNext = goToNext();
+        }
+
         return false;
     }
+
 
     public int size() {
         return nodeCount;
