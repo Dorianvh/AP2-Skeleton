@@ -110,6 +110,8 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 		return t;
 	}
 
+
+
 	private T term(Scanner in) throws APException{
 		char operator;
 		T f = factor(in);
@@ -191,22 +193,18 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
 	private T calculate(T s1, T s2, char operator) throws APException {
 		if(operator == '+'){
-			T set2 = (T) new Set<BigInteger>();
-			return (T) s1.union(set2);
+			return (T) s1.union(s2);
 		}
 		if(operator == '-'){
-			T set2 = (T) new Set<BigInteger>();
-			return (T) s1.difference(set2);
+			return (T) s1.difference(s2);
 		}
 
 		if (operator == '|'){
-			T set2 = (T) new Set<BigInteger>();
-			return (T) s1.symmetricDifference(set2);
+			return (T) s1.symmetricDifference(s2);
 		}
 
 		if (operator == '*'){
-			T set2 = (T) new Set<BigInteger>();
-			return (T) s1.intersection(set2);
+			return (T) s1.intersection(s2);
 		}
 		throw new APException("Operator is not: +, -, * or |");
 	}
@@ -229,7 +227,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 	}
 
 	private char nextChar(Scanner in) {
-		return in.next().charAt(0);
+			return in.next().charAt(0);
 	}
 
 	private void skipSpaces(Scanner in){
