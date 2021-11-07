@@ -36,19 +36,17 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public ListInterface<E> insert(E d) {
-        if(isEmpty()){
+        if (isEmpty()) {
             current = new Node(d);
             nodeCount++;
             return this;
         }
         find(d);
-        if(current.data.compareTo(d) > 0) {
+        if (current.data.compareTo(d) > 0) {
             current = current.prior = new Node(d, null, current);
-        }
-        else if(current.next != null){
+        } else if (current.next != null) {
             current = current.next = current.next.prior = new Node(d, current, current.next);
-        }
-        else {
+        } else {
             current = current.next = new Node(d, current, null);
         }
         nodeCount++;
@@ -67,7 +65,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
                 goToPrevious();
                 return false;
             }
-        } while(goToNext());
+        } while (goToNext());
 
         return false;
     }
@@ -82,41 +80,41 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public ListInterface<E> remove() {
-        if(current.next == null && current.prior == null){
+        if (current.next == null && current.prior == null) {
             return init();
         }
-        if(goToPrevious()){
+        if (goToPrevious()) {
             current.next = current.next.next;
         }
-        if(goToNext()){
+        if (goToNext()) {
             current.prior = current.prior.prior;
         }
-        nodeCount --;
+        nodeCount--;
         return this;
     }
 
     public boolean goToFirst() {
-        if(isEmpty()){
+        if (isEmpty()) {
             return false;
         }
-        while(current.prior != null){
+        while (current.prior != null) {
             current = current.prior;
         }
         return true;
     }
 
     public boolean goToLast() {
-        if(isEmpty()){
+        if (isEmpty()) {
             return false;
         }
-        while(current.next != null){
+        while (current.next != null) {
             current = current.next;
         }
         return true;
     }
 
     public boolean goToNext() {
-        if(isEmpty() || current.next == null){
+        if (isEmpty() || current.next == null) {
             return false;
         }
         current = current.next;
@@ -124,7 +122,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public boolean goToPrevious() {
-        if(isEmpty() || current.prior == null){
+        if (isEmpty() || current.prior == null) {
             return false;
         }
         current = current.prior;
@@ -132,15 +130,15 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
     }
 
     public LinkedList<E> copy() {
-        if(isEmpty()){
-            return new LinkedList();
+        if (isEmpty()) {
+            return new LinkedList<>();
         }
         Node placeholder = current;
         goToFirst();
-        LinkedList result = new LinkedList();
-        do{
+        LinkedList<E> result = new LinkedList<E>();
+        do {
             result.insert(this.retrieve());
-        } while(goToNext());
+        } while (goToNext());
         current = placeholder;
         return result;
     }
