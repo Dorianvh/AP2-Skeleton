@@ -44,12 +44,12 @@ public interface IdentifierInterface {
 	int size();
     /*
     PRE:
-    POST: numberOfElements is returned
+    POST: the number of elements in the identifier is returned
      */
 
 	char getElement(int position);
     /*
-    PRE: Position => 0 & < size()
+    PRE: position => 0 & < size()
     POST: element at position is returned
      */
 
@@ -61,9 +61,14 @@ public interface IdentifierInterface {
       */
 
 	int hashCode();
+	/*
+	PRE:
+    POST: returns the hash code value for this map
+	 */
+
+
 
 	public String value();
-
 	/*
 	PRE: Identifier is not empty
     POST:the value of the element is returned

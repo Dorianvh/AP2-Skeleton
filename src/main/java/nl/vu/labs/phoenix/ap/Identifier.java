@@ -15,6 +15,7 @@ public class Identifier implements IdentifierInterface {
 			add(src.getElement(i));
 		}
 	}
+
 	@Override
 	public void init(char c) {
 		sb = new StringBuffer();
