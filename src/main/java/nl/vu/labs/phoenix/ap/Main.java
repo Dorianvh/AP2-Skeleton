@@ -25,9 +25,11 @@ public class Main<T extends Comparable>{
 		if (setCopy.isEmpty()) {
 			System.out.println("");
 		}
-		while (setCopy.size() != 0) {
-			System.out.print(setCopy.get());
+		while (setCopy.size() != 1) {
+			System.out.print(setCopy.get() + " ");
 			setCopy.remove(setCopy.get());
 		}
+		System.out.print(setCopy.get());
+		setCopy.remove(setCopy.get());
 	}
 }

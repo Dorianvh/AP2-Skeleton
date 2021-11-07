@@ -66,9 +66,7 @@ public interface IdentifierInterface {
     POST: returns the hash code value for this map
 	 */
 
-
-
-	public String value();
+	String value();
 	/*
 	PRE: Identifier is not empty
     POST:the value of the element is returned
