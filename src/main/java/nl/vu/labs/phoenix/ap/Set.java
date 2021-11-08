@@ -8,12 +8,12 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
         list = new LinkedList<>();
     }
 
-
+    @Override
     public void init() {
         this.list.init();
     }
 
-
+    @Override
     public boolean add(T t) {
         if (list.find(t)) {
             return false;
@@ -22,16 +22,17 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
         return true;
     }
 
+    @Override
     public boolean checkForPresence(T t) {
         return list.find(t);
     }
 
-
+    @Override
     public T get() {
         return list.retrieve();
     }
 
-
+    @Override
     public boolean remove(T t) {
         if (list.find(t)) {
             list.remove();
@@ -40,20 +41,24 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
         return false;
     }
 
+    @Override
     public boolean isEmpty() {
         return list.isEmpty();
     }
 
+    @Override
     public int size() {
         return list.size();
     }
 
+    @Override
     public Set<T> copy() {
         Set<T> copy = new Set<>();
         copy.list = this.list.copy();
         return copy;
     }
 
+    @Override
     public Set<T> intersection(SetInterface<T> set2) {
         Set<T> intersection = new Set<>();
         this.list.goToFirst();
@@ -68,6 +73,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
         return intersection;
     }
 
+    @Override
     public Set<T> union(SetInterface<T> set2) {
         Set<T> union = (Set<T>) set2.copy();
         this.list.goToFirst();
@@ -80,6 +86,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
         return union;
     }
 
+    @Override
     public Set<T> difference(SetInterface<T> set2) {
         Set<T> difference = new Set<>();
         list.goToFirst();
@@ -93,6 +100,7 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
         return difference;
     }
 
+    @Override
     public Set<T> symmetricDifference(SetInterface<T> set2) {
         Set<T> symmetricDifference = this.union(set2);
         Set<T> intersection = this.intersection(set2);

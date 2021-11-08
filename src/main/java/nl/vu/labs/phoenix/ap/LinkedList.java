@@ -31,10 +31,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return this;
     }
 
-    public boolean isEmpty() {
-        return nodeCount == 0;
-    }
-
+    @Override
     public ListInterface<E> insert(E d) {
         if (isEmpty()) {
             current = new Node(d);
@@ -53,6 +50,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return this;
     }
 
+    @Override
     public boolean find(E d) {
         if (isEmpty()) {
             return false;
@@ -70,15 +68,22 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return false;
     }
 
+    @Override
+    public boolean isEmpty() {
+        return nodeCount == 0;
+    }
 
+    @Override
     public int size() {
         return nodeCount;
     }
 
+    @Override
     public E retrieve() {
         return current.data;
     }
 
+    @Override
     public ListInterface<E> remove() {
         if (current.next == null && current.prior == null) {
             return init();
@@ -93,6 +98,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return this;
     }
 
+    @Override
     public boolean goToFirst() {
         if (isEmpty()) {
             return false;
@@ -103,6 +109,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return true;
     }
 
+    @Override
     public boolean goToLast() {
         if (isEmpty()) {
             return false;
@@ -113,6 +120,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return true;
     }
 
+    @Override
     public boolean goToNext() {
         if (isEmpty() || current.next == null) {
             return false;
@@ -121,6 +129,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return true;
     }
 
+    @Override
     public boolean goToPrevious() {
         if (isEmpty() || current.prior == null) {
             return false;
@@ -129,6 +138,7 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return true;
     }
 
+    @Override
     public LinkedList<E> copy() {
         if (isEmpty()) {
             return new LinkedList<>();

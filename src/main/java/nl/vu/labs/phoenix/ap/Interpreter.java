@@ -32,15 +32,11 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         Scanner in = new Scanner(s);
         in.useDelimiter("");
         try {
-            return program(in);
+            return statement(in);
         } catch (APException e) {
             System.out.println(e.getMessage());
             return null;
         }
-    }
-
-    private T program(Scanner in) throws APException {/**TODO**/
-        return statement(in);
     }
 
     private T statement(Scanner in) throws APException { /**TODO**/
@@ -51,13 +47,11 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
             nextChar(in);
             return print_statement(in);
         } else if (nextCharIs(in, '/')) {
-            comment();
         } else {
             throw new APException("Error: Command needs to start with a statement\n");
         }
-		return null;
+        return null;
     }
-
 
     private void assignment(Scanner in) throws APException {
         Identifier id = identifier(in);
@@ -79,9 +73,6 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         return print;
     }
 
-    private void comment() {
-        //goes back to program
-    }
 
     private Identifier identifier(Scanner in) {
         Identifier id = new Identifier();
@@ -96,7 +87,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         char operator;
         T t = term(in);
         skipSpaces(in);
-        while (nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|')) {
+        while (additive_Operator(in)) {
             operator = nextChar(in);
             skipSpaces(in);
             t = calculate(t, term(in), operator);
@@ -105,12 +96,11 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         return t;
     }
 
-
     private T term(Scanner in) throws APException {
         char operator;
         T f = factor(in);
         skipSpaces(in);
-        while (nextCharIs(in, '*')) {
+        while (multiplicative_operator(in)) {
             operator = nextChar(in);
             skipSpaces(in);
             f = calculate(f, factor(in), operator);
@@ -162,21 +152,29 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         return set;
     }
 
-	private T calculate(T s1, T s2, char operator) throws APException {
-		if (operator == '+') {
-			return (T) s1.union(s2);
-		}
-		if (operator == '-') {
-			return (T) s1.difference(s2);
-		}
-		if (operator == '|') {
-			return (T) s1.symmetricDifference(s2);
-		}
-		if (operator == '*') {
-			return (T) s1.intersection(s2);
-		}
-		throw new APException("Operator is not: +, -, * or |");
-	}
+    private boolean additive_Operator(Scanner in) {
+        return nextCharIs(in, '+') || nextCharIs(in, '-') || nextCharIs(in, '|');
+    }
+
+    private boolean multiplicative_operator(Scanner in) {
+        return nextCharIs(in, '*');
+    }
+
+    private T calculate(T s1, T s2, char operator) throws APException {
+        if (operator == '+') {
+            return (T) s1.union(s2);
+        }
+        if (operator == '-') {
+            return (T) s1.difference(s2);
+        }
+        if (operator == '|') {
+            return (T) s1.symmetricDifference(s2);
+        }
+        if (operator == '*') {
+            return (T) s1.intersection(s2);
+        }
+        throw new APException("Operator is not: +, -, * or |");
+    }
 
     private T row_natural_numbers(Scanner in, T set) {
         set.add(natural_number(in));

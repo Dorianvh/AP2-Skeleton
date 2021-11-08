@@ -22,27 +22,33 @@ public class Identifier implements IdentifierInterface {
 		sb.append(c);
 	}
 
+	@Override
 	public void add(char c) {
 		sb.append(c);
 	}
 
+	@Override
 	public int size() {
 		return sb.length();
 	}
 
+	@Override
 	public char getElement(int position) {
 		return sb.charAt(position);
 	}
 
+	@Override
 	public int hashCode(){
 		return sb.toString().hashCode();
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		Identifier id2 = (Identifier) o;
 		return sb.toString().equals(id2.sb.toString());
 	}
 
+	@Override
 	public String value() {
 		return sb.toString();
 	}

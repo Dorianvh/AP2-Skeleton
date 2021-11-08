@@ -24,6 +24,7 @@ public class Main<T extends Comparable>{
 		Set<BigInteger> setCopy = set.copy();
 		if (setCopy.isEmpty()) {
 			System.out.println("");
+			return;
 		}
 		while (setCopy.size() != 1) {
 			System.out.print(setCopy.get() + " ");
