@@ -48,7 +48,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
             return print_statement(in);
         } else if (nextCharIs(in, '/')) {
         } else {
-            throw new APException("Error: Command needs to start with a statement\n");
+            throw new APException("Command needs to start with a statement\n");
         }
         return null;
     }
@@ -58,7 +58,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
 
         skipSpaces(in);
         if (!(nextCharIs(in, '='))) {
-            throw new APException("Error: An assignment needs to consist of an identifier followed by = followed by an expression");
+            throw new APException("An assignment needs to consist of an identifier followed by = followed by an expression");
         }
         nextChar(in);
 
@@ -124,14 +124,14 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
             nextChar(in);
             return set(in);
         }
-        throw new APException("Error: Factor should be a set, identifier, or a complex factor");
+        throw new APException("Factor should be a set, identifier, or a complex factor");
     }
 
     private T complex_factor(Scanner in) throws APException {
         T cf = expression(in);
         skipSpaces(in);
         if (!nextCharIs(in, ')')) {
-            throw new APException("Error: Complex factors should end with ')'");
+            throw new APException("Complex factors should end with ')'");
         }
         nextChar(in);
         return cf;
@@ -147,7 +147,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         if (nextCharIs(in, '}')) {
             nextChar(in);
         } else {
-            throw new APException("Error: A set can only contain a row of natural numbers and should be closed with '}'");
+            throw new APException("A set can only contain a row of natural numbers and should be closed with '}'");
         }
         return set;
     }
