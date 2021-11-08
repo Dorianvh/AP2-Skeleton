@@ -89,14 +89,14 @@ public class Set<T extends Comparable<T>> implements SetInterface<T> {
     @Override
     public Set<T> difference(SetInterface<T> set2) {
         Set<T> difference = new Set<>();
-        list.goToFirst();
+        this.list.goToFirst();
         do {
-            if (!isEmpty()) {
+            if (!this.isEmpty()) {
                 if (!set2.checkForPresence(get())) {
                     difference.add(get());
                 }
             }
-        } while (list.goToNext());
+        } while (this.list.goToNext());
         return difference;
     }
 
