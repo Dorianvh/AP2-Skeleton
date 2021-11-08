@@ -39,7 +39,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         }
     }
 
-    private T statement(Scanner in) throws APException { /**TODO**/
+    private T statement(Scanner in) throws APException {
         skipSpaces(in);
         if (nextCharIsLetter(in)) {
             assignment(in);
@@ -48,7 +48,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
             return print_statement(in);
         } else if (nextCharIs(in, '/')) {
         } else {
-            throw new APException("Command needs to start with a statement\n");
+            throw new APException("Command needs to start with a statement");
         }
         return null;
     }
@@ -164,16 +164,16 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
         if (operator == '+') {
             return (T) s1.union(s2);
         }
-        if (operator == '-') {
+        else if (operator == '-') {
             return (T) s1.difference(s2);
         }
-        if (operator == '|') {
+       else if (operator == '|') {
             return (T) s1.symmetricDifference(s2);
         }
-        if (operator == '*') {
+        else {
             return (T) s1.intersection(s2);
         }
-        throw new APException("Operator is not: +, -, * or |");
+
     }
 
     private T row_natural_numbers(Scanner in, T set) {
@@ -232,7 +232,7 @@ public class Interpreter<T extends SetInterface<BigInteger>> implements Interpre
     private void eoln(Scanner in) throws APException {
         skipSpaces(in);
         if (in.hasNext()) {
-            throw new APException("Assignment should end with an expression");
+            throw new APException("Command should end with an expression");
         }
     }
 }
