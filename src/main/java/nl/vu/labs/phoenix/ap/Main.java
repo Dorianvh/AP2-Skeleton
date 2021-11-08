@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main<T extends Comparable>{
 
 	private void start() {
-		InterpreterInterface<Set<BigInteger>> interpreter = new Interpreter<Set<BigInteger>>();
+		Interpreter<Set<BigInteger>> interpreter = new Interpreter<>();
 		Scanner in = new Scanner(System.in);
 		while (in.hasNextLine()) {
 			Set<BigInteger> set = interpreter.eval(in.nextLine());
@@ -26,11 +26,10 @@ public class Main<T extends Comparable>{
 			System.out.println("");
 			return;
 		}
-		while (setCopy.size() != 1) {
+		while (setCopy.size() != 0) {
 			System.out.print(setCopy.get() + " ");
 			setCopy.remove(setCopy.get());
 		}
-		System.out.print(setCopy.get());
-		setCopy.remove(setCopy.get());
+		System.out.println("");
 	}
 }
