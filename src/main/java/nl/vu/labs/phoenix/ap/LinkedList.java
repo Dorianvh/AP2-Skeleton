@@ -70,7 +70,6 @@ public class LinkedList<E extends Comparable<E>> implements ListInterface<E> {
         return false;
     }
 
-
     public int size() {
         return nodeCount;
     }
